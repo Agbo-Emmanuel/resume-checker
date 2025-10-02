@@ -1,4 +1,16 @@
+import { useState } from "react";
+import { FaFileUpload } from "react-icons/fa";
+
 const SelectResume = () => {
+  const [file, setFile] = useState<File | null>(null);
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+      console.log(file);
+    }
+  };
+
   return (
     <>
       <main className="w-full min-h-[100vh] bg-gray-100">
@@ -8,13 +20,24 @@ const SelectResume = () => {
               Upload Your Resume
             </h3>
             <div className="w-[400px] h-[300px] border-3 border-dotted border-purple-500 rounded-md flex flex-col items-center justify-center gap-3">
-              <div className="w-[60px] h-[60px] bg-purple-300 rounded-full flex justify-center items-center"></div>
+              <div className="w-[60px] h-[60px] bg-purple-300 rounded-full flex justify-center items-center">
+                <FaFileUpload className="text-3xl text-purple-800" />
+              </div>
               <p className="text-lg font-medium text-gray-900">
-                Upload file here
+                {file ? file.name : "No file selected"}
               </p>
-              <button className="w-max px-6 py-1 bg-purple-800 text-gray-50 rounded-full text-lg cursor-pointer">
+              <input
+                id="fileUploadInput"
+                type="file"
+                hidden
+                onChange={onFileChange}
+              />
+              <label
+                htmlFor="fileUploadInput"
+                className="w-max px-6 py-1 bg-purple-800 text-gray-50 rounded-full text-lg cursor-pointer"
+              >
                 Browse
-              </button>
+              </label>
             </div>
             <p className="text-lg font-medium text-gray-900">
               Files we can read: DOC, DOCX, PDF
