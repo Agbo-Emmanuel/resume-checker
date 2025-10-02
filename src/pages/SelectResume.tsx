@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaFileUpload } from "react-icons/fa";
 import * as pdfjsLib from "pdfjs-dist";
 import pdfToText from "react-pdftotext";
@@ -31,15 +31,15 @@ const SelectResume = () => {
     try {
       const text = await pdfToText(file);
       setResumeText(text);
+
+      return text;
     } catch (err) {
       console.error("Failed to extract text", err);
     }
   };
 
   const analyzeResume = async () => {
-    extractText();
-
-    console.log(resumeText);
+    const text = await extractText();
 
     if (!window.puter) {
       alert("Puter.js not loaded");
@@ -53,7 +53,7 @@ const SelectResume = () => {
         - Strengths
         - Weaknesses
         - Suggestions to improve
-        Resume Content: ${resumeText}
+        Resume Content: ${text}
       `);
       setLoading(false);
 
@@ -101,7 +101,7 @@ const SelectResume = () => {
           </article>
         </section>
 
-        <section className="w-full flex items-center justify-between px-10">
+        <section className="w-full flex items-center justify-center gap-4 px-10">
           <button
             onClick={() => window.history.back()}
             className="w-max px-10 py-2 border-2 border-purple-500 text-gray-900 font-medium rounded-full text-lg cursor-pointer"
@@ -112,7 +112,7 @@ const SelectResume = () => {
             onClick={analyzeResume}
             className="w-max px-10 py-2 bg-purple-800 text-gray-50 font-medium rounded-full text-lg cursor-pointer"
           >
-            Next
+            {loading ? "Analyzing..." : "Analyze Resume"}
           </button>
         </section>
       </main>
