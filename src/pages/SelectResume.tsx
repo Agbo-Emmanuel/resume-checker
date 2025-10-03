@@ -5,6 +5,7 @@ import pdfToText from "react-pdftotext";
 import { FaFilePdf, FaSearch } from "react-icons/fa";
 import analyze_loading_image from "../assets/analyze_loading_image.png";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 declare global {
@@ -14,6 +15,8 @@ declare global {
 }
 
 const SelectResume = () => {
+  const navigate = useNavigate();
+
   const [file, setFile] = useState<File | null>(null);
   // const [resumeText, setResumeText] = useState("");
   const [analysis, setAnalysis] = useState("");
@@ -63,16 +66,37 @@ const SelectResume = () => {
 
     try {
       const response = await window.puter.ai.chat(`
-        Analyze this resume and give feedback:
-        - Strengths
-        - Weaknesses
-        - Suggestions to improve
+        Analyze the following resume and provide feedback. 
+
+        Return the result strictly in valid JSON format with the following structure:
+
+        {
+          name: "the Candidate's name",
+          role: "the Candidate's target role",
+          overallScore: "an overall score out of 100",
+          "summary": "A concise summary of the overall resume analysis",
+          "strengths": [
+            "List of strengths..."
+          ],
+          "weaknesses": [
+            "List of weaknesses..."
+          ],
+          "suggestions": [
+            "List of suggestions for improvement..."
+          ],
+          grammarIssues: [
+            "list of grammar issues...",
+          ]
+        }
+
         Resume Content: ${text}
+
       `);
       setLoading(false);
+      sessionStorage.setItem("analysis", response);
+      navigate("/analysis-result");
 
-      setAnalysis(response);
-      console.log("AI Analysis:", response);
+      // console.log("AI Analysis:", response);
     } catch (err) {
       console.error("AI analysis failed", err);
       setAnalysis("Error analyzing resume.");
