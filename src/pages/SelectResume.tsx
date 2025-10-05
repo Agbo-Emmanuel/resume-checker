@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaFileUpload } from "react-icons/fa";
 import * as pdfjsLib from "pdfjs-dist";
 import pdfToText from "react-pdftotext";
-import { FaFilePdf, FaSearch } from "react-icons/fa";
 import analyze_loading_image from "../assets/analyze_loading_image.png";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +17,6 @@ const SelectResume = () => {
   const navigate = useNavigate();
 
   const [file, setFile] = useState<File | null>(null);
-  // const [resumeText, setResumeText] = useState("");
-  const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
   const [animationLoading, setAnimationLoading] = useState(false);
 
@@ -99,7 +96,6 @@ const SelectResume = () => {
       // console.log("AI Analysis:", response);
     } catch (err) {
       console.error("AI analysis failed", err);
-      setAnalysis("Error analyzing resume.");
     } finally {
       setLoading(false);
     }
