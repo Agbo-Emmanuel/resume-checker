@@ -109,39 +109,38 @@ const SelectResume = () => {
 
   return (
     <>
-      <main className="w-full min-h-[100vh] bg-gray-100">
+      <main className="w-full min-h-screen bg-gray-50 flex flex-col justify-center items-center px-4 py-10">
         {showLoader ? (
-          <section className="w-full h-[100vh] flex flex-col items-center justify-center p-5">
-            <div className="relative rounded-md flex items-center justify-center shadow-lg overflow-hidden p-2">
+          <section className="w-full h-screen flex flex-col items-center justify-center p-5">
+            <div className="relative rounded-xl flex items-center justify-center bg-white shadow-md overflow-hidden p-6 w-[280px] h-[280px]">
               <img
                 src={analyze_loading_image}
-                alt="PDF Icon"
-                className="w-70 h-70 object-cover"
+                alt="Analyzing..."
+                className="w-64 h-64 object-contain opacity-90"
               />
-
-              {/* <div className="absolute left-1/2 transform -translate-x-1/2 animate-scan">
-              <FaSearch className="text-gray-700 text-6xl opacity-80" />
-            </div> */}
-              <div className="w-full h-[10px] bg-purple-500 absolute left-1/2 transform -translate-x-1/2 animate-scan"></div>
+              <div className="absolute bottom-0 left-0 w-full h-[6px] bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 animate-scan"></div>
             </div>
-            <p className="mt-6 text-gray-600 text-lg animate-pulse">
+            <p className="mt-8 text-gray-700 text-lg font-medium animate-pulse">
               Analyzing your resume...
             </p>
           </section>
         ) : (
           <>
-            <section className="w-full flex flex-col items-center py-10 px-2">
-              <article className="flex flex-col items-center gap-4">
-                <h3 className="text-2xl font-medium text-gray-900">
+            <section className="w-full flex flex-col items-center py-12 px-6">
+              <article className="flex flex-col items-center gap-6 bg-white shadow-sm rounded-2xl p-10 max-w-md w-full border border-gray-100">
+                <h3 className="text-2xl font-semibold text-gray-900">
                   Upload Your Resume
                 </h3>
-                <div className="w-[400px] h-[300px] border-3 border-dotted border-purple-500 rounded-md flex flex-col items-center justify-center gap-3">
-                  <div className="w-[60px] h-[60px] bg-purple-300 rounded-full flex justify-center items-center">
-                    <FaFileUpload className="text-3xl text-purple-800" />
+
+                <div className="w-full h-[250px] border-2 border-dashed border-gray-300 hover:border-purple-500 rounded-xl flex flex-col items-center justify-center gap-4 transition-colors duration-300">
+                  <div className="w-16 h-16 bg-purple-100 rounded-full flex justify-center items-center">
+                    <FaFileUpload className="text-3xl text-purple-700" />
                   </div>
-                  <p className="text-lg font-medium text-gray-900">
+
+                  <p className="text-base text-gray-700 font-medium">
                     {file ? file.name : "No file selected"}
                   </p>
+
                   <input
                     id="fileUploadInput"
                     type="file"
@@ -150,27 +149,28 @@ const SelectResume = () => {
                   />
                   <label
                     htmlFor="fileUploadInput"
-                    className="w-max px-6 py-1 bg-purple-800 text-gray-50 rounded-full text-lg cursor-pointer"
+                    className="px-6 py-2 bg-purple-700 hover:bg-purple-800 text-white rounded-full text-base font-medium cursor-pointer transition-all duration-200"
                   >
                     Browse
                   </label>
                 </div>
-                <p className="text-lg font-medium text-gray-900">
-                  Files we can read: DOC, DOCX, PDF
+
+                <p className="text-sm text-gray-500 mt-2">
+                  Supported formats: PDF
                 </p>
               </article>
             </section>
 
-            <section className="w-full flex items-center justify-center gap-4 px-10">
+            <section className="w-full flex items-center justify-center gap-6 mt-1 px-4">
               <button
                 onClick={() => window.history.back()}
-                className="w-max px-10 py-2 border-2 border-purple-500 text-gray-900 font-medium rounded-full text-lg cursor-pointer"
+                className="px-8 py-2 cursor-pointer border border-gray-400 hover:border-purple-500 text-gray-700 font-medium rounded-full text-base transition-all duration-300"
               >
                 Back
               </button>
               <button
                 onClick={analyzeResume}
-                className="w-max px-10 py-2 bg-purple-800 text-gray-50 font-medium rounded-full text-lg cursor-pointer"
+                className="px-8 py-2 cursor-pointer bg-purple-700 hover:bg-purple-800 text-white font-medium rounded-full text-base shadow-sm transition-all duration-300"
               >
                 {loading ? "Analyzing..." : "Analyze"}
               </button>
